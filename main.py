@@ -4,18 +4,14 @@ from transformers import pipeline
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Set page configuration
-st.set_page_config(page_title="Sentiment and Emotion Analyzer", page_icon=":smiley:", layout="wide")
+st.set_page_config(page_title="EmoSent", page_icon=":smiley:", layout="wide")
 
-# Page title
 st.title("Sentiment and Emotion Analyzer")
 
-# User input
 user_input = st.text_area("Enter text or paragraph to analyze:", height=150)
 
 if st.button("Analyze"):
     if user_input:
-        # Sentiment analysis
         blob = TextBlob(user_input)
         senti = blob.sentiment.polarity
 
@@ -29,7 +25,6 @@ if st.button("Analyze"):
             sentiment = 'neutral'
             col = "#d3d3d3"
 
-        # Emotion classification
         classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
         model_outputs = classifier(user_input)
 
@@ -40,12 +35,10 @@ if st.button("Analyze"):
                 high_score_1 = output['score']
                 emotion_1 = output['label']
 
-        # Display sentiment and emotion
         st.subheader("Analysis Results")
         st.write(f"**Sentiment:** {sentiment.capitalize()}")
         st.write(f"**Emotion:** {emotion_1.capitalize()}")
 
-        # Graphical representation of sentiment
         fig, ax = plt.subplots(figsize=(10, 2))
         ax.barh(y=0, width=senti, height=1, color=col)
 
@@ -60,7 +53,6 @@ if st.button("Analyze"):
 
         st.pyplot(fig)
 
-        # Optional: Display the entire emotion distribution
         st.subheader("Emotion Distribution")
         emotion_scores = {output['label']: output['score'] for output in model_outputs[0]}
         emotion_labels = list(emotion_scores.keys())
