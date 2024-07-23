@@ -1,0 +1,6 @@
+streamlit
+textblob
+transformers
+matplotlib
+seaborn
+torch 
