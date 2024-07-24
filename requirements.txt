@@ -4,3 +4,4 @@ transformers
 matplotlib
 seaborn
 torch 
+pyttsx3
